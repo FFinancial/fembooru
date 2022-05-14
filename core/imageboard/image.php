@@ -214,6 +214,27 @@ class Image
     }
 
     /**
+     * Counts consecutive days of image uploads
+     */
+    public static function count_upload_streak(): int
+    {
+        $now = date_create();
+        $last_date = $now;
+        foreach (self::find_images_iterable() as $img) {
+            $next_date = date_create($img->posted);
+            if (date_diff($next_date, $last_date)->days > 0) {
+                break;
+            }
+            $last_date = $next_date;
+        }
+        if ($last_date === $now) {
+            return 0;
+        }
+        $diff_d = ($now->getTimestamp() - $last_date->getTimestamp()) / 86400;
+        return (int)ceil($diff_d) + 1;
+    }
+
+    /**
      * Count the number of image results for a given search
      *
      * #param string[] $tags

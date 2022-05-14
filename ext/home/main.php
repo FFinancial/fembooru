@@ -5,6 +5,20 @@ class Home extends Extension
     /** @var HomeTheme */
     protected $theme;
 
+	private $femDimensions = array(
+		array(23, 64),
+		array(14, 86),
+		array(31, 63),
+		array(37, 100)
+	);
+
+	private $femTags = array(
+		"Hatsune_Miku",
+		"Monika",
+		"Violet_Parr",
+		"Keith_Kogane"
+	);
+
     public function onPageRequest(PageRequestEvent $event)
     {
         global $config, $page;
@@ -34,6 +48,27 @@ class Home extends Extension
         $event->panel->add_block($sb);
     }
 
+	private function addCountToBlankImage($charId, $digit)
+	{
+		$font = realpath('ext/home/vga.ttf');
+		$file = "ext/home/counters/femcounter/$charId.png";
+		$img = imagecreatefrompng($file);
+		$black = imagecolorallocate($img, 0, 0, 0);
+		$x = $this->femDimensions[$charId][0];
+		$y = $this->femDimensions[$charId][1];
+		imagettftext($img, 20, 0, $x, $y + 20, $black, $font, $digit);
+		imagetruecolortopalette($img, true, 16);
+		imagesavealpha($img, true);
+		imagecolortransparent($img, imagecolorat($img, 0, 0));
+		ob_start();
+		imagegif($img);
+		$image_data = ob_get_contents();
+		ob_end_clean();
+		$data = base64_encode($image_data);
+		imagedestroy($img);
+		return $data;
+	}
+
 
     private function get_body()
     {
@@ -48,14 +83,23 @@ class Home extends Extension
         $counter_dir = $config->get_string('home_counter', 'default');
 
         $total = Image::count_images();
+        $streak = Image::count_upload_streak();
         $strtotal = "$total";
         $num_comma = number_format($total);
+        $streak_comma = number_format($streak);
 
         $counter_text = "";
         $length = strlen($strtotal);
         for ($n=0; $n<$length; $n++) {
             $cur = $strtotal[$n];
-            $counter_text .= " <img alt='$cur' src='$base_href/ext/home/counters/$counter_dir/$cur.gif' />  ";
+			if ($counter_dir === 'femcounter') {
+				$charId = $n % 4;
+				$base64url = $this->addCountToBlankImage($charId, $cur);
+				$tag = $this->femTags[$charId];
+				$counter_text .= " <a href='$base_href/post/list/$tag/1'><img alt='$cur' title='$tag' src='data:image/gif;base64,$base64url' /></a>  ";
+            } else {
+				$counter_text .= " <img alt='$cur' src='$base_href/ext/home/counters/$counter_dir/$cur.gif' />  ";
+			}
         }
 
         // get the homelinks and process them
@@ -74,6 +118,6 @@ class Home extends Extension
         $main_links = format_text($main_links);
         $main_text = $config->get_string('home_text', '');
 
-        return $this->theme->build_body($sitename, $main_links, $main_text, $contact_link, $num_comma, $counter_text);
+        return $this->theme->build_body($sitename, $main_links, $main_text, $contact_link, $num_comma, $counter_text, $streak_comma);
     }
 }

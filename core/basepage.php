@@ -404,7 +404,6 @@ class BasePage
         $js_latest = $config_latest;
         $js_files = array_merge(
             [
-                "vendor/bower-asset/jquery/dist/jquery.min.js",
                 "vendor/bower-asset/jquery-timeago/jquery.timeago.js",
                 "vendor/bower-asset/js-cookie/src/js.cookie.js",
                 "ext/static_files/modernizr-3.3.1.custom.js",

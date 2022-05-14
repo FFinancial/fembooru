@@ -53,8 +53,8 @@ class Page extends BasePage
 		<meta name="viewport" content="width=1024">
 		<meta name="theme-color" content="#7EB977">
 		<link rel="stylesheet" href="$data_href/themes/$theme_name/menuh.css" type="text/css">
+		<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
 $header_html
-
 		<script defer src="https://unpkg.com/webp-hero@0.0.0-dev.21/dist-cjs/polyfills.js"></script>
 		<script defer src="https://unpkg.com/webp-hero@0.0.0-dev.21/dist-cjs/webp-hero.bundle.js"></script>
 		<script>
@@ -80,9 +80,6 @@ EOD;
 
 		<nav>
 			$left_block_html
-			<p>
-				<a href="//whos.amung.us/show/4vcsbthd"><img src="//whos.amung.us/widget/4vcsbthd.png" style="display:none" alt="web counter" /></a>
-			</p>
 		</nav>
 
 		<article>
@@ -94,16 +91,15 @@ EOD;
 
 		<footer>
 <span style="font-size: 12px;">
-    <a href="http://rule34.paheal.net/wiki/Terms%20of%20use">Terms of use</a>
+    <a href="http://fembooru.jp/wiki/Terms%20of%20use">Terms of use</a>
     !!!
-    <a href="http://rule34.paheal.net/wiki/Privacy%20policy">Privacy policy</a>
+    <a href="http://fembooru.jp/wiki/Privacy%20policy">Privacy policy</a>
     !!!
-    <a href="http://rule34.paheal.net/wiki/2257">18 U.S.C. &sect;2257</a><br />
+    <a href="http://fembooru.jp/wiki/2257">18 U.S.C. &sect;2257</a><br />
 </span>
 <hr />
 <span style="font-size: 12px;">
-    BTC: <b>193gutWtgirF7js14ivcXfnfQgXv9n5BZo</b>
-    ETH: <b>0x68B88a00e69Bde88E9db1b9fC10b8011226e26aF</b>
+    LINK: <b>9ffc8053E26E1621F85F50Cc260fb3Fc772cd24F</b>
 </span>
 <hr />
 <br>

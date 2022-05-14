@@ -15,6 +15,7 @@ class CustomHomeTheme extends HomeTheme
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 		<meta name="theme-color" content="#7EB977">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
 		$hh
 		<style>
 			div#front-page h1 {font-size: 4em; margin-top: 2em; margin-bottom: 0; text-align: center; border: none; background: none; box-shadow: none; -webkit-box-shadow: none; -moz-box-shadow: none;}
@@ -24,7 +25,7 @@ class CustomHomeTheme extends HomeTheme
 			div#front-page li {list-style-type: none; margin: 0;}
 			@media (max-width: 800px) {
 				div#front-page h1 {font-size: 3em; margin-top: 0.5em; margin-bottom: 0.5em;}
-				#counter {display: none;}
+				/*#counter {display: none;}*/
 			}
 		</style>
 	</head>
@@ -36,12 +37,13 @@ EOD
         );
     }
 
-    public function build_body(string $sitename, string $main_links, string $main_text, string $contact_link, $num_comma, string $counter_text)
+    public function build_body(string $sitename, string $main_links, string $main_text, string $contact_link, $num_comma, string $counter_text, string $streak_comma = "0")
     {
         $main_links_html = empty($main_links) ? "" : "<div class='space' id='links'>$main_links</div>";
         $message_html = empty($main_text)     ? "" : "<div class='space' id='message'>$main_text</div>";
         $counter_html = empty($counter_text)  ? "" : "<div class='space' id='counter'>$counter_text</div>";
         $contact_link = empty($contact_link) ? "" : "<br><a href='$contact_link'>Contact</a> &ndash;";
+        $streak_html = $streak_comma === "0" ? "" : "Upload streak: $streak_comma days 🔥 &ndash;";
         $search_html = "
 			<div class='space' id='search'>
 				<form action='".make_link("post/list")."' method='GET'>
@@ -53,14 +55,18 @@ EOD
 		";
         return "
 		<div id='front-page'>
-			<h1><a style='text-decoration: none;' href='".make_link()."'><span>$sitename</span></a></h1>
+			<h1>
+				<a style='text-decoration: none;' href='".make_link()."'>
+					<img style='width: 360px; margin:15px 0; image-rendering:crisp-edges;' alt='$sitename' src='".make_link("themes/rule34v2/Fembooru.gif")."' />
+				</a>
+			</h1>
 			$main_links_html
 			$search_html
 			$message_html
 			$counter_html
 			<div class='space' id='foot'>
 
-<!-- JuicyAds v3.1 -->
+<!-- JuicyAds v3.1
 <script type='text/javascript' data-cfasync='false' async src='https://poweredby.jads.co/js/jads.js'></script>
 <ins id='825625' data-width='908' data-height='270'></ins>
 <script type='text/javascript' data-cfasync='false' async>(adsbyjuicy = window.adsbyjuicy || []).push({'adzone':825625});</script>
@@ -68,6 +74,7 @@ EOD
 
 				<small><small>
 				$contact_link Serving $num_comma posts &ndash;
+                $streak_html
 				Running <a href='http://code.shishnet.org/shimmie2/'>Shimmie2</a>
 				</small></small>
 			</div>

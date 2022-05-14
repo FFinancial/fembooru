@@ -17,7 +17,7 @@ class CustomUploadTheme extends UploadTheme
     {
         parent::display_page($page);
         $html = "
-			<a href='//rule34.paheal.net/wiki/tagging'>Tagging Guide</a>
+			<a href='//fembooru.jp/wiki/tagging'>Tagging Guide</a>
 		";
         $page->add_block(new Block(null, $html, "main", 19));
     }
@@ -25,6 +25,12 @@ class CustomUploadTheme extends UploadTheme
     protected function build_upload_block(): string
     {
         $url = make_link("upload");
-        return "<a href='$url' style='font-size: 2em; display: block;'>Upload</a>";
+        $streak = Image::count_upload_streak();
+        $streak_comma = number_format($streak);
+        $html = "<a href='$url' style='font-size: 2em; display: block;'>Upload</a>";
+        if ($streak > 0) {
+            $html .= "Current streak: $streak_comma days 🔥";
+        }
+        return $html;
     }
 }
